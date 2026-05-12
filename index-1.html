@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pizzeria Western House – Foggia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rye&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9973a;
+      --gold-light: #e8b84b;
+      --dark: #1a1008;
+      --dark2: #231508;
+      --brown: #3d1f0a;
+      --brown2: #5c2e0e;
+      --cream: #f5ead8;
+      --cream2: #ede0c4;
+      --red: #8b1a1a;
+      --red2: #a52020;
+      --text: #f0e0c0;
+      --text-dim: #c4a878;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Crimson Text', serif;
+      background-color: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%231a1008'/%3E%3Crect width='1' height='1' fill='%23231508' opacity='0.4'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23231508' opacity='0.4'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(20, 10, 4, 0.95);
+      border-bottom: 2px solid var(--gold);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: 'Rye', cursive;
+      font-size: 1.2rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      color: var(--cream2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--dark) !important;
+      padding: 0.4rem 1.1rem;
+      border-radius: 2px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--dark) !important; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 60%, rgba(139,26,26,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 20%, rgba(201,151,58,0.10) 0%, transparent 50%),
+        linear-gradient(180deg, #0d0703 0%, #1a1008 40%, #231508 100%);
+      z-index: 0;
+    }
+
+    /* decorative lines */
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,151,58,0.04) 60px, rgba(201,151,58,0.04) 61px),
+        repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,151,58,0.04) 60px, rgba(201,151,58,0.04) 61px);
+    }
+
+    .hero-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Crimson Text', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.5rem;
+      margin-bottom: 1.5rem;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 1;
+      font-family: 'Rye', cursive;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      color: var(--gold);
+      line-height: 1.05;
+      text-shadow: 0 2px 30px rgba(201,151,58,0.3), 0 0 60px rgba(201,151,58,0.1);
+      animation: fadeDown 0.9s ease 0.1s both;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--cream);
+      font-size: 0.45em;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-family: 'Crimson Text', serif;
+      font-weight: 600;
+      margin-top: 0.3em;
+    }
+
+    .hero-divider {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem auto;
+      width: min(500px, 90%);
+      animation: fadeUp 1s ease 0.3s both;
+    }
+
+    .hero-divider::before, .hero-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .hero-star { color: var(--gold); font-size: 1.4rem; }
+
+    .hero-desc {
+      position: relative;
+      z-index: 1;
+      font-size: 1.25rem;
+      color: var(--text-dim);
+      font-style: italic;
+      max-width: 560px;
+      line-height: 1.7;
+      animation: fadeUp 1s ease 0.4s both;
+    }
+
+    .hero-buttons {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2.5rem;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+      font-family: 'Crimson Text', serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2.2rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Crimson Text', serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2.2rem;
+      border: 1.5px solid var(--gold);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-secondary:hover { background: rgba(201,151,58,0.1); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll::after {
+      content: '▼';
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    /* SECTION COMMON */
+    section { position: relative; z-index: 1; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: 'Crimson Text', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Rye', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--cream);
+      line-height: 1.2;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .section-divider::before, .section-divider::after {
+      content: '';
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .section-divider::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .section-divider span { color: var(--gold); font-size: 1rem; }
+
+    /* INFO STRIP */
+    .info-strip {
+      background: var(--brown);
+      border-top: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 1rem;
+      color: var(--cream2);
+    }
+    .info-item .icon { font-size: 1.2rem; }
+    .info-item strong { color: var(--gold); font-weight: 600; }
+
+    /* MENU SECTION */
+    .menu-section {
+      padding: 5rem 2rem;
+      background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+    }
+
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .tab-btn {
+      font-family: 'Crimson Text', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid rgba(201,151,58,0.3);
+      padding: 0.5rem 1.3rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .tab-btn.active {
+      background: var(--gold);
+      color: var(--dark);
+      border-color: var(--gold);
+    }
+
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(201,151,58,0.15);
+      border: 1px solid rgba(201,151,58,0.2);
+    }
+
+    .menu-item {
+      background: var(--dark2);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: background 0.2s;
+    }
+    .menu-item:hover { background: rgba(61,31,10,0.8); }
+
+    .menu-item-info { flex: 1; }
+
+    .menu-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      margin-bottom: 0.2rem;
+    }
+
+    .menu-item-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .menu-item-badge {
+      display: inline-block;
+      background: var(--red);
+      color: var(--cream);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.1rem 0.5rem;
+      margin-left: 0.4rem;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
+    .menu-item-price {
+      font-family: 'Rye', cursive;
+      font-size: 1rem;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ORARI & CONTATTI */
+    .info-section {
+      padding: 5rem 2rem;
+      background: var(--brown);
+      border-top: 2px solid rgba(201,151,58,0.3);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .info-card {
+      border: 1px solid rgba(201,151,58,0.25);
+      padding: 2rem;
+      background: rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 20px;
+      width: 40px; height: 2px;
+      background: var(--gold);
+    }
+
+    .info-card-title {
+      font-family: 'Rye', cursive;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hours-list { list-style: none; }
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(201,151,58,0.1);
+      font-size: 1rem;
+      color: var(--text-dim);
+    }
+    .hours-list li:last-child { border-bottom: none; }
+    .hours-list .day { color: var(--cream2); font-weight: 600; }
+    .hours-list .closed { color: var(--red2); }
+    .hours-list .open { color: var(--gold-light); }
+
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-list li { display: flex; align-items: center; gap: 0.8rem; font-size: 1.05rem; }
+    .contact-list .c-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .contact-list a { color: var(--cream2); text-decoration: none; transition: color 0.2s; }
+    .contact-list a:hover { color: var(--gold); }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,151,58,0.1);
+      border: 1px solid rgba(201,151,58,0.3);
+      color: var(--gold);
+      font-family: 'Crimson Text', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--gold); color: var(--dark); }
+
+    /* MAP */
+    .map-section {
+      border-top: 2px solid rgba(201,151,58,0.3);
+    }
+    .map-section iframe {
+      width: 100%;
+      height: 400px;
+      display: block;
+      filter: grayscale(40%) sepia(20%);
+      border: none;
+    }
+
+    /* ORDER BANNER */
+    .order-banner {
+      background: linear-gradient(135deg, var(--red) 0%, var(--dark2) 100%);
+      border-top: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .order-banner h2 {
+      font-family: 'Rye', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .order-banner p {
+      color: var(--cream2);
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-bottom: 1.8rem;
+    }
+    .order-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      background: #0d0703;
+      border-top: 1px solid rgba(201,151,58,0.2);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Rye', cursive;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .footer-sub {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(201,151,58,0.4);
+      letter-spacing: 0.1em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .info-strip { gap: 1.2rem; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🤠 Western House</div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menù</a></li>
+    <li><a href="#info">Orari</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+    <li><a href="https://www.justeat.it/restaurants-pizzeria-western-house-foggia/menu" target="_blank" class="nav-cta">Ordina Online</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">🍕 Pizzeria · Foggia dal cuore</div>
+  <h1 class="hero-title">
+    Western House
+    <span>Piazza Aldo Moro · Foggia</span>
+  </h1>
+  <div class="hero-divider"><span class="hero-star">✦</span></div>
+  <p class="hero-desc">Impasto artigianale, ingredienti freschi e un'anima western.<br>Aperta dal martedì alla domenica, dalle 18:30.</p>
+  <div class="hero-buttons">
+    <a href="#menu" class="btn-primary">Scopri il Menù</a>
+    <a href="https://www.justeat.it/restaurants-pizzeria-western-house-foggia/menu" target="_blank" class="btn-secondary">Ordina a Domicilio</a>
+  </div>
+  <div class="hero-scroll">Scorri</div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-item"><span class="icon">📍</span><span>Piazza Aldo Moro 30, <strong>Foggia</strong></span></div>
+  <div class="info-item"><span class="icon">🕐</span><span>Mar–Dom <strong>18:30 – 23:30</strong></span></div>
+  <div class="info-item"><span class="icon">📞</span><span>Prenotazioni <strong>388 944 2894</strong></span></div>
+  <div class="info-item"><span class="icon">🛵</span><span>Domicilio <strong>388 699 3187</strong></span></div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-header">
+    <span class="section-label">La nostra offerta</span>
+    <h2 class="section-title">Il Menù</h2>
+    <div class="section-divider"><span>✦</span></div>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="tab-btn active" onclick="showTab('pizze')">🍕 Pizze</button>
+    <button class="tab-btn" onclick="showTab('focacce')">🫓 Focacce</button>
+    <button class="tab-btn" onclick="showTab('mezzelune')">🥙 Mezzelune</button>
+    <button class="tab-btn" onclick="showTab('calzoni')">🫔 Calzoni</button>
+    <button class="tab-btn" onclick="showTab('panzerotti')">🟡 Panzerotti</button>
+    <button class="tab-btn" onclick="showTab('fritti')">🍟 Fritti</button>
+    <button class="tab-btn" onclick="showTab('dolci')">🍰 Dolci</button>
+    <button class="tab-btn" onclick="showTab('bevande')">🥤 Bevande</button>
+  </div>
+
+  <!-- PIZZE -->
+  <div class="menu-panel active" id="tab-pizze">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Margherita</div><div class="menu-item-desc">pomodoro, mozzarella e basilico</div></div><div class="menu-item-price">6,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Marinara</div><div class="menu-item-desc">pomodoro, olio all'aglio e origano</div></div><div class="menu-item-price">4,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bianca</div><div class="menu-item-desc">mozzarella e origano</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Prosciutto</div><div class="menu-item-desc">pomodoro, mozzarella e prosciutto cotto</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Funghi</div><div class="menu-item-desc">pomodoro, mozzarella e funghi freschi</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bella Carciofa</div><div class="menu-item-desc">pomodoro, mozzarella e carciofi</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tonnata</div><div class="menu-item-desc">pomodoro, mozzarella e tonno</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Napoli</div><div class="menu-item-desc">pomodoro, mozzarella, acciughe e olive</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Romana</div><div class="menu-item-desc">pomodoro, mozzarella, acciughe e capperi</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bavaria</div><div class="menu-item-desc">pomodoro, mozzarella e wurstel</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Crudaiola</div><div class="menu-item-desc">pomodori freschi, mozzarella, origano, rughetta, basilico e scaglie di grana</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">San Daniele</div><div class="menu-item-desc">pomodoro, mozzarella e prosciutto crudo</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Speck</div><div class="menu-item-desc">pomodoro, mozzarella e speck</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Diavola <span class="menu-item-badge">🌶 piccante</span></div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia piccante e olio piccante</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Satanica <span class="menu-item-badge">🌶 piccante</span></div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia piccante, olio piccante e tabasco</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">4 Formaggi</div><div class="menu-item-desc">mozzarella, emmental, caciocavallo e gorgonzola</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Capricciosa</div><div class="menu-item-desc">pomodoro, mozzarella, prosciutto cotto, funghi, carciofi, olive e wurstel</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Boscaiola</div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia fresca e funghi</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Montanara</div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia fresca e cipolla</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Ortolana</div><div class="menu-item-desc">pomodoro, mozzarella, melanzane, zucchine e peperoni</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Paesana</div><div class="menu-item-desc">pomodoro, mozzarella, caciocavallo e tonno</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pugliese</div><div class="menu-item-desc">pomodoro, mozzarella, tonno e cipolla</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Fresca</div><div class="menu-item-desc">mozzarella, pomodorini, funghi, rucola e mais</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Regina di Napoli</div><div class="menu-item-desc">scamorza, pomodorini, olive nere e scaglie di grana</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Affumicata</div><div class="menu-item-desc">pomodoro, mozzarella, scamorza affumicata e speck</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Afrodite</div><div class="menu-item-desc">mozzarella, pomodoro, gorgonzola e salsiccia fresca</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Hollywood</div><div class="menu-item-desc">mozzarella, pomodoro, emmental, grana, aglio, capperi e rughetta</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Gargano</div><div class="menu-item-desc">pomodoro, cipolla, capperi, acciughe, grana, origano e rughetta</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tirolese</div><div class="menu-item-desc">pomodoro, mozzarella, bresaola, rughetta e scaglie di grana</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Ghiotta</div><div class="menu-item-desc">pomodoro, mozzarella, prosciutto crudo e bocconcini</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Carrettiera</div><div class="menu-item-desc">pomodoro, mozzarella e prosciutto crudo a tocchetti</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Simpatia <span class="menu-item-badge">🌶 piccante</span></div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia fresca, salsiccia piccante, funghi e cipolla</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Abbuffata <span class="menu-item-badge">🌶 piccante</span></div><div class="menu-item-desc">pomodoro, mozzarella, prosciutto cotto, funghi, carciofi, wurstel, salsiccia piccante e melanzane</div></div><div class="menu-item-price">9,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Delicata</div><div class="menu-item-desc">pomodoro, mozzarella, ciliegine di panna, prosciutto crudo e grana</div></div><div class="menu-item-price">9,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pulcinella</div><div class="menu-item-desc">mozzarella, broccoli e salsiccia fresca</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Fantastica</div><div class="menu-item-desc">mozzarella, pesto e prosciutto crudo a tocchetti</div></div><div class="menu-item-price">10,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Golosa</div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia fresca, ricotta e pepe</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Western House ⭐</div><div class="menu-item-desc">scamorza, speck, rughetta, scaglie di grana e bocconcini</div></div><div class="menu-item-price">10,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pizza Stella ⭐</div><div class="menu-item-desc">ogni punta un ripieno diverso</div></div><div class="menu-item-price">12,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pizza Kebab</div><div class="menu-item-desc">pomodoro, mozzarella, patatine, pomodorini, kebab, peperoni, cipolla, ketchup e maionese</div></div><div class="menu-item-price">10,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">La Delizia</div><div class="menu-item-desc">pomodoro, mozzarella, salsiccia fresca, gorgonzola, funghi e prosciutto crudo</div></div><div class="menu-item-price">10,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">4 Stagioni</div><div class="menu-item-desc">pomodoro, mozzarella, prosciutto cotto, funghi, carciofi e olive</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mortadella</div><div class="menu-item-desc">mozzarella, mortadella, granella di pistacchio e glassa balsamica</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Zucca</div><div class="menu-item-desc">mozzarella, zucca, salsiccia fresca e gorgonzola</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Burratina</div><div class="menu-item-desc">mozzarella, pomodorino fresco, basilico e burratina pugliese</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Gustosa</div><div class="menu-item-desc">mozzarella, zucca, scamorza affumicata e speck</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">La Contadina</div><div class="menu-item-desc">mozzarella fiordilatte, zucca, cipolla rossa di Tropea, pancetta affumicata e zucchine grigliate</div></div><div class="menu-item-price">10,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Terrona ⭐</div><div class="menu-item-desc">fior di latte, capocollo, datterino giallo, tarallo sbriciolato e burrata pugliese</div></div><div class="menu-item-price">12,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Buffalo Bill ⭐</div><div class="menu-item-desc">fior di latte, crema di porcini, capocollo, burratina e noci</div></div><div class="menu-item-price">12,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Delia ⭐</div><div class="menu-item-desc">fior di latte, crema di zucca, pancetta, noci e gocce di crema di tartufo</div></div><div class="menu-item-price">12,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- FOCACCE -->
+  <div class="menu-panel" id="tab-focacce">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Focaccia</div><div class="menu-item-desc">olio, sale e origano</div></div><div class="menu-item-price">3,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Vecchia Arpi</div><div class="menu-item-desc">pomodorini, tonno e capperi</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Campagnola</div><div class="menu-item-desc">pomodorini, mozzarella fresca, rughetta, basilico e scaglie di grana</div></div><div class="menu-item-price">8,50 €</div></div>
+    </div>
+  </div>
+
+  <!-- MEZZELUNE -->
+  <div class="menu-panel" id="tab-mezzelune">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Cacio e Tonno</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Cacio, Pomodorini, Crudo, Rucola e Grana</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Salsiccia Fresca e Friarielli</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Emmental, Cacio, Gorgonzola e Salsiccia Piccante <span class="menu-item-badge">🌶</span></div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Zucca, Gorgonzola e Salsiccia Fresca</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Speck e Scamorza Affumicata</div></div><div class="menu-item-price">8,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Wurstel, Patatine Fritte, Ketchup e Maionese</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarella, Bresaola, Rucola e Grana</div></div><div class="menu-item-price">8,50 €</div></div>
+    </div>
+  </div>
+
+  <!-- CALZONI -->
+  <div class="menu-panel" id="tab-calzoni">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Prosciutto Cotto</div><div class="menu-item-desc">pomodoro, mozzarella, prosciutto cotto e funghetti</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Salsiccia Piccante <span class="menu-item-badge">🌶</span></div><div class="menu-item-desc">pomodoro, mozzarella fiordilatte, salsiccia piccante, funghi e gorgonzola</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Ricotta</div><div class="menu-item-desc">pomodoro, mozzarella fiordilatte, ricotta e salsiccia fresca</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Ventricina</div><div class="menu-item-desc">mozzarella fiordilatte, zucca, scamorza affumicata e ventricina</div></div><div class="menu-item-price">9,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Friarelli</div><div class="menu-item-desc">mozzarella fiordilatte, friarelli e salsiccia fresca</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Speck</div><div class="menu-item-desc">pomodoro, mozzarella fiordilatte, scamorza affumicata e speck</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Calzone con Basilico</div><div class="menu-item-desc">pomodoro, mozzarella fiordilatte e basilico</div></div><div class="menu-item-price">6,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- PANZEROTTI -->
+  <div class="menu-panel" id="tab-panzerotti">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Classico</div><div class="menu-item-desc">pomodoro e fior di latte</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Prosciutto Cotto</div><div class="menu-item-desc">pomodoro, fior di latte e prosciutto cotto</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Salsiccia Piccante <span class="menu-item-badge">🌶</span></div><div class="menu-item-desc">pomodoro, fior di latte e salsiccia piccante</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Vegetariano</div><div class="menu-item-desc">pomodoro, fior di latte, melanzane e zucchine grigliate</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Cacio e Pepe</div><div class="menu-item-desc">fior di latte, cacio e pepe</div></div><div class="menu-item-price">7,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto 4 Formaggi</div><div class="menu-item-desc">fior di latte, emmental, cacio e gorgonzola</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Pierino</div><div class="menu-item-desc">fior di latte, mortadella e pistacchio</div></div><div class="menu-item-price">8,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Panzerotto Ricotta</div><div class="menu-item-desc">pomodoro, fior di latte, salsiccia fresca e ricotta</div></div><div class="menu-item-price">8,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- FRITTI -->
+  <div class="menu-panel" id="tab-fritti">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Patatine Fritte</div><div class="menu-item-desc">vaschetta</div></div><div class="menu-item-price">3,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Olive Ascolane</div><div class="menu-item-desc">vaschetta 6 pezzi</div></div><div class="menu-item-price">3,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mozzarelline Impanate</div><div class="menu-item-desc">vaschetta 6 pezzi</div></div><div class="menu-item-price">3,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Chele di Granchio</div><div class="menu-item-desc">vaschetta 4 pezzi</div></div><div class="menu-item-price">3,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Crocchettine</div><div class="menu-item-desc">vaschetta 6 pezzi</div></div><div class="menu-item-price">3,50 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Straccetti Fritti</div><div class="menu-item-desc">con pomodorini freschi e basilico</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tris Frittatine</div><div class="menu-item-desc">1 bolognese, 1 amatriciana, 1 cacio e pepe</div></div><div class="menu-item-price">6,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- DOLCI -->
+  <div class="menu-panel" id="tab-dolci">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pizza Big Snack</div><div class="menu-item-desc">nutella e noccioline tritate</div></div><div class="menu-item-price">7,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Cassatina Tommasino</div><div class="menu-item-desc">pistacchio e ricotta</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Rocher Tommasino</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">I 3 Cioccolati Tommasino</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tartufo Nero</div></div><div class="menu-item-price">5,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tiramisù</div></div><div class="menu-item-price">5,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- BEVANDE -->
+  <div class="menu-panel" id="tab-bevande">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Acqua Naturale</div></div><div class="menu-item-price">da 1,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Acqua Frizzante</div></div><div class="menu-item-price">da 1,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bibita 33cl</div></div><div class="menu-item-price">2,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Coca-Cola 33cl</div></div><div class="menu-item-price">2,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Fanta 33cl</div></div><div class="menu-item-price">2,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Birra Tuborg 33cl 🍺</div><div class="menu-item-desc">+18</div></div><div class="menu-item-price">2,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Nastro Azzurro 66cl 🍺</div><div class="menu-item-desc">+18</div></div><div class="menu-item-price">3,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Ichnusa 50cl 🍺</div><div class="menu-item-desc">+18</div></div><div class="menu-item-price">4,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Peroni 33cl 🍺</div><div class="menu-item-desc">+18</div></div><div class="menu-item-price">2,00 €</div></div>
+      <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Peroni 66cl 🍺</div><div class="menu-item-desc">+18</div></div><div class="menu-item-price">3,00 €</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER BANNER -->
+<div class="order-banner">
+  <h2>Ordina comodamente da casa 🛵</h2>
+  <p>Consegna a domicilio su Just Eat oppure chiama direttamente</p>
+  <div class="order-buttons">
+    <a href="https://www.justeat.it/restaurants-pizzeria-western-house-foggia/menu" target="_blank" class="btn-primary">Ordina su Just Eat</a>
+    <a href="tel:3886993187" class="btn-secondary">📞 Chiama per il domicilio</a>
+    <a href="https://wa.me/393886993187" target="_blank" class="btn-secondary">💬 WhatsApp</a>
+  </div>
+</div>
+
+<!-- INFO & CONTATTI -->
+<section class="info-section" id="info">
+  <div class="section-header">
+    <span class="section-label">Quando siamo aperti</span>
+    <h2 class="section-title">Orari & Contatti</h2>
+    <div class="section-divider"><span>✦</span></div>
+  </div>
+  <div class="info-grid" id="contatti">
+    <!-- Orari -->
+    <div class="info-card">
+      <div class="info-card-title">🕐 Orari di Apertura</div>
+      <ul class="hours-list">
+        <li><span class="day">Lunedì</span><span class="closed">Chiuso</span></li>
+        <li><span class="day">Martedì</span><span class="open">18:30 – 23:30</span></li>
+        <li><span class="day">Mercoledì</span><span class="open">18:30 – 23:30</span></li>
+        <li><span class="day">Giovedì</span><span class="open">18:30 – 23:30</span></li>
+        <li><span class="day">Venerdì</span><span class="open">18:30 – 23:30</span></li>
+        <li><span class="day">Sabato</span><span class="open">18:30 – 23:30</span></li>
+        <li><span class="day">Domenica</span><span class="open">18:30 – 23:30</span></li>
+      </ul>
+    </div>
+    <!-- Contatti -->
+    <div class="info-card">
+      <div class="info-card-title">📞 Contatti</div>
+      <ul class="contact-list">
+        <li><span class="c-icon">📍</span><a href="https://maps.google.com/?q=Piazza+Aldo+Moro+30+Foggia" target="_blank">Piazza Aldo Moro 30, Foggia</a></li>
+        <li><span class="c-icon">📱</span><a href="tel:3889442894">388 944 2894 (prenotazioni)</a></li>
+        <li><span class="c-icon">🛵</span><a href="tel:3886993187">388 699 3187 (domicilio)</a></li>
+        <li><span class="c-icon">✉️</span><a href="mailto:pierowest@gmail.com">pierowest@gmail.com</a></li>
+      </ul>
+      <div class="social-links">
+        <a href="https://www.instagram.com/pizzeriawesternhouse/" target="_blank" class="social-btn">📸 Instagram</a>
+        <a href="https://www.facebook.com/p/Pizzeria-Western-House-61564964603242/" target="_blank" class="social-btn">👍 Facebook</a>
+      </div>
+    </div>
+    <!-- Dove siamo -->
+    <div class="info-card">
+      <div class="info-card-title">📍 Dove Siamo</div>
+      <p style="color:var(--text-dim); font-size:1rem; margin-bottom:1rem;">Piazza Aldo Moro 30, Foggia — nel cuore della città.</p>
+      <a href="https://maps.google.com/?q=Piazza+Aldo+Moro+30+Foggia" target="_blank" class="btn-primary" style="font-size:0.9rem;">Apri su Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3005.5!2d15.5446!3d41.4622!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1339843e77777777%3A0x0!2sPiazza+Aldo+Moro%2C+30%2C+71121+Foggia+FG!5e0!3m2!1sit!2sit!4v1"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Mappa Pizzeria Western House Foggia">
+  </iframe>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🤠 Western House</div>
+  <div class="footer-sub">Pizzeria Artigianale · Piazza Aldo Moro 30, Foggia</div>
+  <div class="footer-copy">© 2025 Pizzeria Western House — Tutti i diritti riservati</div>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+</script>
+</body>
+</html>
